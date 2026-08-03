@@ -10,26 +10,51 @@
       <a
         routerLink="/"
         routerLinkActive="text-cyan-400"
+        [routerLinkActiveOptions]="{ exact: true }"
         class="hover:text-cyan-400 transition-colors"
         >Home</a
       >
-      <a routerLink="dashboard" class="hover:text-cyan-400 transition-colors"
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="text-cyan-400"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="hover:text-cyan-400 transition-colors"
         >Dashboard</a
       >
-      <a routerLink="/projects" class="hover:text-cyan-400 transition-colors"
-        >Projects</a
+      <a
+        routerLink="/projects"
+        routerLinkActive="text-cyan-400"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="hover:text-cyan-400 transition-colors"
+        >Projetos</a
       >
-      <a routerLink="/students" class="hover:text-cyan-400 transition-colors"
-        >Students</a
+      <a
+        routerLink="/students"
+        routerLinkActive="text-cyan-400"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="hover:text-cyan-400 transition-colors"
+        >Estudantes</a
       >
-      <a routerLink="/competition" class="hover:text-cyan-400 transition-colors"
-        >Competition</a
+      <a
+        routerLink="/competition"
+        routerLinkActive="text-cyan-400"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="hover:text-cyan-400 transition-colors"
+        >Competição</a
       >
-      <a routerLink="login" class="hover:text-cyan-400 transition-colors"
+      <a
+        routerLink="/login"
+        routerLinkActive="text-cyan-400"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="hover:text-cyan-400 transition-colors"
         >Login</a
       >
-      <a routerlink="/register" class="hover:text-cyan-400 transition-colors"
-        >Register</a
+      <a
+        routerLink="/register"
+        routerLinkActive="text-cyan-400"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="hover:text-cyan-400 transition-colors"
+        >Cadastrar</a
       >
     </div>
   </div>
