@@ -2,3 +2,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* Dark theme */
+  --bg-main-color: #000000;
+  --text-main-color: #d0f5f8;
+  --text-secondary-color: #51767a;
+  --text-accent-color: #00d9ff;
+}
+
+.dark-theme {
+  background-color: var(--bg-main-color);
+  color: var(--text-main-color);
+}
