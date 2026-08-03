@@ -5,3 +5,6 @@ export interface User {
   collegeName: string;
   role: string;
 }
+
+export type CreateUserDto = Omit<User, 'role'>;
+export type LoginUserDto = Pick<User, 'email' | 'password'>;
