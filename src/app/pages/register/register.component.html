@@ -1,46 +1,104 @@
 <div class="min-h-screen flex items-center justify-center">
   <div class="bg-white p-8 rounded shadow-md w-full max-w-sm">
     <h2 class="text-2xl font-bold mb-6 text-gray-800">Cadastrar</h2>
-    <form>
-      <div class="mb-4">
-        <label for="fullName" class="block text-sm font-medium text-gray-700"
-          >Nome Completo</label
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      <div class="flex flex-col gap-6">
+        <div class="relative">
+          <label for="fullName" class="block text-sm font-medium text-gray-700"
+            >Nome da Completo</label
+          >
+          <input
+            type="text"
+            formControlName="fullName"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-violet-500 focus:border-violet-500 text-cyan-950"
+            placeholder="Nome da Completo"
+            [ngClass]="{ 'border-orange-700': errorCheck('fullName') }"
+          />
+          @if (errorCheck("fullName")) {
+            <small class="text-orange-700 absolute -bottom-5"
+              >Nome obrigatório</small
+            >
+          }
+        </div>
+        <div class="relative">
+          <label
+            for="collegeName"
+            class="block text-sm font-medium text-gray-700"
+            >Nome da Instituição</label
+          >
+          <input
+            type="text"
+            formControlName="collegeName"
+            [ngClass]="{ 'border-orange-700': errorCheck('collegeName') }"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-violet-500 focus:border-violet-500 text-cyan-950"
+            placeholder="Nome da Instituição"
+          />
+          @if (
+            this.registerForm.get("collegeName")?.errors &&
+            this.registerForm.get("collegeName")?.touched
+          ) {
+            <small class="absolute -bottom-5 text-orange-700"
+              >Nome obrigatório</small
+            >
+          }
+        </div>
+        <div class="relative">
+          <label for="email" class="block text-sm font-medium text-gray-700"
+            >Email</label
+          >
+          <input
+            type="email"
+            formControlName="email"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-violet-500 focus:border-violet-500 text-cyan-950"
+            [ngClass]="{ 'border-orange-700': errorCheck('email') }"
+            placeholder="Digite seu email"
+          />
+          @if (
+            this.registerForm.get("email")?.errors &&
+            this.registerForm.get("email")?.touched
+          ) {
+            <small class="absolute -bottom-5 text-orange-700"
+              >E-mail inválido</small
+            >
+          }
+        </div>
+        <div class="relative">
+          <label for="password" class="block text-sm font-medium text-gray-700"
+            >Senha</label
+          >
+          <input
+            type="password"
+            formControlName="password"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-violet-500 focus:border-violet-500 text-cyan-950"
+            [ngClass]="{ 'border-orange-700': errorCheck('password') }"
+            placeholder="Digite sua senha"
+          />
+          @if (
+            this.registerForm.get("password")?.errors &&
+            this.registerForm.get("password")?.touched
+          ) {
+            <small class="absolute -bottom-5 text-orange-700"
+              >Senha obrigatória</small
+            >
+          }
+        </div>
+
+        <button
+          type="submit"
+          class="mt-4 w-full bg-violet-700 text-white py-2 px-4 rounded hover:bg-violet-900 focus:outline-none"
+          ngClass="disabled"
         >
-        <input
-          type="text"
-          id="fullName"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-violet-500 focus:border-violet-500 text-cyan-950"
-          placeholder="Nome completo"
-        />
+          Cadastrar
+        </button>
+        <div class="flex justify-center mt-4">
+          <small class="text-gray-400"
+            >Já tem uma conta?
+            <a routerLink="/login" class="text-violet-600 hover:text-violet-900"
+              >Faça login</a
+            ></small
+          >
+        </div>
       </div>
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-700"
-          >Email</label
-        >
-        <input
-          type="email"
-          id="email"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-violet-500 focus:border-violet-500 text-cyan-950"
-          placeholder="Digite seu email"
-        />
-      </div>
-      <div class="mb-6">
-        <label for="password" class="block text-sm font-medium text-gray-700"
-          >Password</label
-        >
-        <input
-          type="Senha"
-          id="password"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-violet-500 focus:border-violet-500 text-cyan-950"
-          placeholder="Digite sua senha"
-        />
-      </div>
-      <button
-        type="submit"
-        class="w-full bg-violet-700 text-white py-2 px-4 rounded hover:bg-violet-900 focus:outline-none"
-      >
-        Login
-      </button>
     </form>
   </div>
 </div>
