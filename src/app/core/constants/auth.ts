@@ -1,6 +1,6 @@
 export const AUTH = {
   register: '/api/User/Register',
-  getAll: '/api/User/Login',
-  login: '/api/User/GetAllUser',
+  login: '/api/User/Login',
+  getAll: '/api/User/GetAllUser',
   localStorageKey: 'FreProjectApiUser',
 };
