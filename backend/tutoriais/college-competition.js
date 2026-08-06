@@ -172,6 +172,59 @@ module.exports = function registerCollegeCompetition(app, db) {
     res.json(users.map(toUserResponse));
   });
 
+  /**
+   * @swagger
+   * /api/User/ChangePassword:
+   *   put:
+   *     summary: Altera a senha do usuário informando email, senha atual e nova senha
+   *     tags: [User]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               email: { type: string }
+   *               oldPassword: { type: string }
+   *               newPassword: { type: string }
+   *     responses:
+   *       200:
+   *         description: Senha alterada com sucesso
+   *       400:
+   *         description: Dados incompletos
+   *       401:
+   *         description: Credenciais incorretas
+   */
+  app.put("/api/User/ChangePassword", (req, res) => {
+    const { email, oldPassword, newPassword } = req.body || {};
+
+    if (!email || !oldPassword || !newPassword) {
+      return res.status(400).json({
+        message: "email, oldPassword e newPassword são obrigatórios",
+      });
+    }
+
+    try {
+      const user = db.prepare("SELECT * FROM users WHERE email = ?").get(email);
+
+      if (!user || user.password !== hashPassword(oldPassword)) {
+        return res
+          .status(401)
+          .json({ message: "E-mail ou senha atual incorretos" });
+      }
+
+      const updateStmt = db.prepare(
+        "UPDATE users SET password = ? WHERE userId = ?",
+      );
+      updateStmt.run(hashPassword(newPassword), user.userId);
+
+      return res.json({ message: "Senha alterada com sucesso" });
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
   // ============ COMPETITION ============
 
   /**
