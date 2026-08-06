@@ -1,6 +1,83 @@
 /**
- * Tutorial: Todo List
- * Rotas: /api/todos
+ * @swagger
+ * tags:
+ *   name: Todos
+ *   description: Gerenciamento de tarefas
+ */
+
+/**
+ * @swagger
+ * /api/todos:
+ *   get:
+ *     summary: Lista todas as tarefas
+ *     tags: [Todos]
+ *     responses:
+ *       200:
+ *         description: Array de tarefas
+ */
+
+/**
+ * @swagger
+ * /api/todos:
+ *   post:
+ *     summary: Cria uma nova tarefa
+ *     tags: [Todos]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Tarefa criada
+ */
+
+/**
+ * @swagger
+ * /api/todos/{id}:
+ *   put:
+ *     summary: Atualiza uma tarefa
+ *     tags: [Todos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               completed:
+ *                 type: boolean
+ *     responses:
+ *       200:
+ *         description: Tarefa atualizada
+ */
+
+/**
+ * @swagger
+ * /api/todos/{id}:
+ *   delete:
+ *     summary: Remove uma tarefa
+ *     tags: [Todos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Tarefa removida
  */
 module.exports = function registerTodoList(app, db) {
   // Schema específico deste tutorial
