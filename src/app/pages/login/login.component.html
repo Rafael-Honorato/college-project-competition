@@ -1,1 +1,71 @@
-<p>login works!</p>
+<div class="min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded shadow-md w-full max-w-sm">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Cadastrar</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="flex flex-col gap-6">
+        <div class="relative">
+          <label for="email" class="block text-sm font-medium text-gray-700"
+            >Email</label
+          >
+          <input
+            type="email"
+            formControlName="email"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-violet-500 focus:border-violet-500 text-cyan-950"
+            [ngClass]="{ 'border-orange-700': errorCheck('email') }"
+            placeholder="Digite seu email"
+          />
+          @if (errorCheck("email")) {
+            <small class="absolute -bottom-5 text-orange-700"
+              >E-mail inválido</small
+            >
+          }
+        </div>
+        <div class="relative">
+          <label for="password" class="block text-sm font-medium text-gray-700"
+            >Senha</label
+          >
+          <input
+            type="password"
+            formControlName="password"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-violet-500 focus:border-violet-500 text-cyan-950"
+            [ngClass]="{ 'border-orange-700': errorCheck('password') }"
+            placeholder="Digite sua senha"
+          />
+          @if (errorCheck("password")) {
+            <small class="absolute -bottom-5 text-orange-700"
+              >Senha obrigatória</small
+            >
+          }
+        </div>
+        <div class="relative">
+          <button
+            type="submit"
+            class="mt-4 w-full bg-violet-700 text-white py-2 px-4 rounded hover:bg-violet-900 focus:outline-none"
+            ngClass="disabled"
+          >
+            Login
+          </button>
+          @if (loggedError()) {
+            <div class="w-full">
+              <small
+                class="text-center w-full self-center absolute -bottom-5 text-orange-700 justify-center"
+                >Senha e/ou usuário incorreto</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="flex justify-center mt-4">
+          <small class="text-gray-400"
+            >Não tem uma conta?
+            <a
+              routerLink="/register"
+              class="text-violet-600 hover:text-violet-900"
+              >Faça Cadastro</a
+            ></small
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
