@@ -1,0 +1,134 @@
+<nav
+  class="glass-dark fixed w-full z-50 px-6 py-4 bg-white/1 backdrop-blur-md border-white/10 border-b-2"
+>
+  <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <!-- Logo -->
+    <div class="text-2xl font-bold tracking-tighter">
+      <span class="text-cyan-400">&lt;</span>
+      SchoolProjects
+      <span class="text-cyan-400">/&gt;</span>
+    </div>
+
+    <!-- Menu Desktop -->
+    <div class="hidden md:flex space-x-6 text-sm items-center">
+      <!-- Link Público -->
+      <a
+        routerLink="/home"
+        routerLinkActive="text-cyan-400"
+        ariaCurrentWhenActive="page"
+        class="hover:text-cyan-400 transition-colors"
+      >
+        Home
+      </a>
+
+      @if (authService.isAuthenticated()) {
+        <!-- Links Autenticados -->
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="text-cyan-400"
+          ariaCurrentWhenActive="page"
+          class="hover:text-cyan-400 transition-colors"
+        >
+          Dashboard
+        </a>
+        <a
+          routerLink="/projects"
+          routerLinkActive="text-cyan-400"
+          ariaCurrentWhenActive="page"
+          class="hover:text-cyan-400 transition-colors"
+        >
+          Projetos
+        </a>
+        <a
+          routerLink="/students"
+          routerLinkActive="text-cyan-400"
+          ariaCurrentWhenActive="page"
+          class="hover:text-cyan-400 transition-colors"
+        >
+          Estudantes
+        </a>
+        <a
+          routerLink="/competition"
+          routerLinkActive="text-cyan-400"
+          ariaCurrentWhenActive="page"
+          class="hover:text-cyan-400 transition-colors"
+        >
+          Competição
+        </a>
+
+        <!-- Dropdown do Usuário -->
+        <div class="relative flex items-center gap-4 ml-4">
+          <button
+            type="button"
+            (click)="toggleMenu($event)"
+            class="focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-full transition-all"
+            [attr.aria-expanded]="isMenuOpen()"
+            aria-haspopup="true"
+            aria-label="Menu do usuário"
+          >
+            <img
+              [src]="userImg()"
+              alt="Avatar do usuário"
+              class="w-[32px] h-[32px] rounded-full border-2 border-transparent hover:border-cyan-400 transition-all cursor-pointer object-cover"
+            />
+          </button>
+
+          @if (isMenuOpen()) {
+            <ul
+              class="absolute right-0 top-full mt-2 w-36 text-right bg-slate-800/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-xl overflow-hidden z-50"
+              role="menu"
+              (click)="$event.stopPropagation()"
+            >
+              <li role="none">
+                <a
+                  routerLink="/profile"
+                  role="menuitem"
+                  class="block px-4 py-2.5 text-sm text-gray-200 hover:bg-cyan-600 hover:text-white transition-colors"
+                >
+                  Minha conta
+                </a>
+              </li>
+              <li role="none">
+                <a
+                  routerLink="/settings"
+                  role="menuitem"
+                  class="block px-4 py-2.5 text-sm text-gray-200 hover:bg-cyan-600 hover:text-white transition-colors"
+                >
+                  Meus Projetos
+                </a>
+              </li>
+              <li role="none" class="border-t border-white/10">
+                <button
+                  type="button"
+                  (click)="onLoggout()"
+                  role="menuitem"
+                  class="w-full text-right px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors cursor-pointer"
+                >
+                  Sair
+                </button>
+              </li>
+            </ul>
+          }
+        </div>
+      } @else {
+        <!-- Links Não Autenticados -->
+        <a
+          routerLink="/login"
+          routerLinkActive="text-cyan-400"
+          ariaCurrentWhenActive="page"
+          class="hover:text-cyan-400 transition-colors"
+        >
+          Login
+        </a>
+        <a
+          routerLink="/register"
+          routerLinkActive="text-cyan-400"
+          ariaCurrentWhenActive="page"
+          class="hover:text-cyan-400 transition-colors"
+        >
+          Cadastro
+        </a>
+      }
+    </div>
+  </div>
+</nav>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { type CreateUserDto, LoginUserDto, User } from '../interfaces/user';
-import { Observable, tap } from 'rxjs';
+import { Observable, shareReplay, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { AUTH } from '../constants/auth';
 
@@ -10,12 +10,13 @@ import { AUTH } from '../constants/auth';
 })
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private readonly user = signal<User | null>(this.getUserFormStorage());
-  readonly user$ = this.user.asReadonly();
+  private readonly _user = signal<number | null>(this.getUserFormStorage());
+  readonly user = this._user.asReadonly();
+  readonly isAuthenticated = computed(() => !!this._user());
 
-  getAll(): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.BASE_URL}${AUTH.getAll}`);
-  }
+  readonly users$ = this.http
+    .get<User[]>(`${environment.BASE_URL}${AUTH.getAll}`)
+    .pipe(shareReplay(1));
 
   register(user: CreateUserDto): Observable<User> {
     return this.http.post<User>(
@@ -27,22 +28,30 @@ export class AuthService {
   login(credentials: LoginUserDto): Observable<User> {
     return this.http
       .post<User>(`${environment.BASE_URL}${AUTH.login}`, credentials)
-      .pipe(tap((loggedUser) => this.localStorageUser(loggedUser)));
+      .pipe(tap((loggedUser) => this.localStorageUser(loggedUser.userId)));
   }
 
-  private getUserFormStorage(): User | null {
-    const savedUser = localStorage.getItem(AUTH.localStorageKey);
-    if (!savedUser) return null;
+  loggout() {
+    localStorage.removeItem(AUTH.localStorageKey);
+    this._user.set(null);
+  }
+
+  private getUserFormStorage(): number | null {
+    const savedId = localStorage.getItem(AUTH.localStorageKey);
+    if (!savedId) return null;
 
     try {
-      return JSON.parse(savedUser) as User;
+      return JSON.parse(savedId);
     } catch (error) {
       localStorage.removeItem(AUTH.localStorageKey);
       return null;
     }
   }
 
-  localStorageUser(user: User): void {
-    if (user) localStorage.setItem(AUTH.localStorageKey, JSON.stringify(user));
+  private localStorageUser(userId: number): void {
+    if (userId) {
+      localStorage.setItem(AUTH.localStorageKey, JSON.stringify(userId));
+      this._user.set(userId);
+    }
   }
 }
