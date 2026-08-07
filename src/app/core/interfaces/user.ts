@@ -1,10 +1,14 @@
 export interface User {
+  userId: number;
   fullName: string;
   email: string;
-  password: string;
   collegeName: string;
   role: string;
 }
 
-export type CreateUserDto = Omit<User, 'role'>;
-export type LoginUserDto = Pick<User, 'email' | 'password'>;
+export type CreateUserDto = Omit<User, 'userId' | 'role'> & {
+  password: string;
+};
+export type LoginUserDto = Pick<User, 'email'> & {
+  password: string;
+};
