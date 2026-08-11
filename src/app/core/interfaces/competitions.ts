@@ -13,4 +13,4 @@ export type CreateCompetitionDto = Omit<
   'competitionId' | 'createdAt'
 >;
 
-export type GalByIdCompetition = Pick<Competitions, 'competitionId'>;
+export type GalByIdCompetitionDto = Pick<Competitions, 'competitionId'>;

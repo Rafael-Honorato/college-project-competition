@@ -1,3 +1,5 @@
+import { AUTH } from './auth';
+
 export const COMP = {
   create: '/api/Competition/Create',
   update: '/api/User/update',
@@ -6,22 +8,6 @@ export const COMP = {
   getById: '/api/Competition/GetById',
 } as const;
 
-export const COMPETITION_STATUS = {
-  DRAFT: 'Rascunho',
-  REGISTRATION_OPEN: 'Inscrições Abertas',
-  REGISTRATION_CLOSED: 'Inscrições Encerradas',
-  IN_PROGRESS: 'Em Andamento',
-  COMPLETED: 'Finalizado',
-  CANCELLED: 'Cancelado',
-  POSTPONED: 'Adiado',
-} as const;
-
-// core/constants/competition-status.ts
-
-/**
- * Chave = valor salvo no banco (e enviado/recebido da API)
- * Valor = label exibido na UI
- */
 // export const COMPETITION_STATUS = {
 //   DRAFT: 'Rascunho',
 //   REGISTRATION_OPEN: 'Inscrições Abertas',
@@ -32,9 +18,23 @@ export const COMPETITION_STATUS = {
 //   POSTPONED: 'Adiado',
 // } as const;
 
-// export type CompetitionStatus = keyof typeof COMPETITION_STATUS;
+// core/constants/competition-status.ts
 
-// /** Entries prontos para usar em @for / ngFor */
-// export const COMPETITION_STATUS_ENTRIES = Object.entries(COMPETITION_STATUS).map(
-//   ([value, label]) => ({ value, label })
-// );
+/**
+ * Chave = valor salvo no banco (e enviado/recebido da API)
+ * Valor = label exibido na UI
+ */
+export const COMPETITION_STATUS = {
+  DRAFT: 'Rascunho',
+  REGISTRATION_OPEN: 'Inscrições Abertas',
+  REGISTRATION_CLOSED: 'Inscrições Encerradas',
+  IN_PROGRESS: 'Em Andamento',
+  COMPLETED: 'Finalizado',
+  CANCELLED: 'Cancelado',
+  POSTPONED: 'Adiado',
+} as const;
+
+/** Entries prontos para usar em @for / ngFor */
+export const COMPETITION_STATUS_ENTRIES = Object.entries(
+  COMPETITION_STATUS,
+).map(([value, label]) => ({ value, label }));
