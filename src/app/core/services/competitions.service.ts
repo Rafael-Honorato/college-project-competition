@@ -1,17 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Competitions, CreateCompetitionDto } from '../interfaces/competitions';
-import { Observable, shareReplay } from 'rxjs';
+import { Observable, of, shareReplay } from 'rxjs';
 import { COMP } from '../constants/competitions';
 import { environment } from '../../../environments/environment.development';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CompetitionsService {
   private readonly http: HttpClient = inject(HttpClient);
 
-  readonly competitions$ = this.http
+  constructor() {
+    this.refresAll();
+  }
+
+  competitions$ = this.http
     .get<Competitions[]>(`${environment.BASE_URL}${COMP.getAll}`)
     .pipe(shareReplay(1));
 
@@ -33,6 +35,15 @@ export class CompetitionsService {
       `${environment.BASE_URL}${COMP.create}`,
       competition,
     );
+  }
+
+  refresAll() {
+    this.competitions$ = of([]);
+    this.competitions$ = this.http
+      .get<Competitions[]>(`${environment.BASE_URL}${COMP.getAll}`)
+      .pipe(shareReplay(1));
+
+    return this.competitions$;
   }
 
   update() {}

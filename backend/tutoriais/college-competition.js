@@ -255,7 +255,7 @@ module.exports = function registerCollegeCompetition(app, db) {
       description,
       startDate,
       endDate,
-      status = "new",
+      status = "NEW",
     } = req.body || {};
     if (!title) return res.status(400).json({ message: "title é obrigatório" });
     const result = db
@@ -268,6 +268,28 @@ module.exports = function registerCollegeCompetition(app, db) {
       .prepare("SELECT * FROM competitions WHERE competitionId = ?")
       .get(result.lastInsertRowid);
     res.status(201).json(comp);
+  });
+
+  /**
+   * @swagger
+   * /api/Competition/DeleteAll:
+   *   delete:
+   *     summary: Deleta todas as competições
+   *     tags: [Competition]
+   *     responses:
+   *       200:
+   *         description: Todas as competições foram deletadas
+   */
+  app.delete("/api/Competition/DeleteAll", (req, res) => {
+    // ⚠️ Delete projects primeiro para evitar FK constraint ou registros órfãos
+    db.prepare("DELETE FROM projects").run();
+
+    const result = db.prepare("DELETE FROM competitions").run();
+
+    res.json({
+      message: "All competitions deleted successfully",
+      deletedCount: result.changes,
+    });
   });
 
   /**

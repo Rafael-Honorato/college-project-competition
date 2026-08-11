@@ -1,6 +1,7 @@
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { WidtComponent } from '../../../pages/competitions/widgets/widt/widt.component';
 
 @Component({
   selector: 'app-nav',
