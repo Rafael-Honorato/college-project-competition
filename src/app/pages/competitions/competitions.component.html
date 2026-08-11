@@ -6,6 +6,7 @@
     </h2>
     <hr class="mb-4 border-gray-500" />
   </div>
+  <div></div>
   <div
     class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white"
   >
@@ -23,7 +24,10 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-slate-200">
-        @for (item of competitions; track item.competitionId ?? $index) {
+        @for (
+          item of this.compService.competitions$ | async;
+          track item.competitionId ?? $index
+        ) {
           <tr class="hover:bg-slate-50/80 transition-colors">
             <!-- ID -->
             <td class="px-6 py-4 font-mono text-xs font-medium text-slate-500">
