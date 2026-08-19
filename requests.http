@@ -1,0 +1,13 @@
+POST http://localhost:3001/api/Competition/Create
+content-type: application/json
+
+{
+  "title": "Campeonato Nacional de Matemática 2026",
+  "description": "Edição anual com etapas individuais e em duplas.",
+  "startDate": "2026-10-10T08:00:00.000Z",
+  "endDate": "2026-11-30T18:00:00.000Z",
+  "status": "PENDENTE"
+}
+
+###
+GET http://localhost:3001/api/Competition/GetAll

@@ -3,4 +3,4 @@ export const AUTH = {
   login: '/api/User/Login',
   getAll: '/api/User/GetAllUser',
   localStorageKey: 'FreProjectApiUser',
-};
+} as const;

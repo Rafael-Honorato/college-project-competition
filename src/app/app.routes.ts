@@ -51,4 +51,34 @@ export const routes: Routes = [
         (m) => m.SubmitProjectComponent,
       ),
   },
+  {
+    path: 'competition',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./pages/competitions/competitions.component').then(
+            (m) => m.CompetitionsComponent,
+          ),
+      },
+      {
+        path: 'create',
+        loadComponent: () =>
+          import('./pages/competitions/competition/competition.component').then(
+            (m) => m.CompetitionComponent,
+          ),
+      },
+      {
+        path: 'detail/:id',
+        loadComponent: () =>
+          import('./pages/competitions/competition/competition.component').then(
+            (m) => m.CompetitionComponent,
+          ),
+      },
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: 'home',
+  },
 ];
