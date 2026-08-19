@@ -255,7 +255,7 @@ module.exports = function registerCollegeCompetition(app, db) {
       description,
       startDate,
       endDate,
-      status = "new",
+      status = "NEW",
     } = req.body || {};
     if (!title) return res.status(400).json({ message: "title é obrigatório" });
     const result = db
@@ -268,6 +268,140 @@ module.exports = function registerCollegeCompetition(app, db) {
       .prepare("SELECT * FROM competitions WHERE competitionId = ?")
       .get(result.lastInsertRowid);
     res.status(201).json(comp);
+  });
+
+  /**
+   * @swagger
+   * /api/Competition/Update/{id}:
+   *   put:
+   *     summary: Atualiza uma competição existente
+   *     tags: [Competition]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: ID da competição
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               title: { type: string }
+   *               description: { type: string }
+   *               startDate: { type: string }
+   *               endDate: { type: string }
+   *               status: { type: string }
+   *     responses:
+   *       200:
+   *         description: Competição atualizada com sucesso
+   *       400:
+   *         description: ID ou dados inválidos
+   *       404:
+   *         description: Competição não encontrada
+   */
+  app.put("/api/Competition/Update/:id", (req, res) => {
+    const { id } = req.params;
+    const { title, description, startDate, endDate, status } = req.body || {};
+
+    if (!id) return res.status(400).json({ message: "ID é obrigatório" });
+
+    // Verifica se o registro existe
+    const existingComp = db
+      .prepare("SELECT * FROM competitions WHERE competitionId = ?")
+      .get(id);
+
+    if (!existingComp) {
+      return res.status(404).json({ message: "Competição não encontrada" });
+    }
+
+    // Mantém os valores existentes caso o campo não seja passado na requisição (Update parcial)
+    const updatedTitle = title !== undefined ? title : existingComp.title;
+    const updatedDescription =
+      description !== undefined ? description : existingComp.description;
+    const updatedStartDate =
+      startDate !== undefined ? startDate : existingComp.startDate;
+    const updatedEndDate =
+      endDate !== undefined ? endDate : existingComp.endDate;
+    const updatedStatus = status !== undefined ? status : existingComp.status;
+
+    if (!updatedTitle) {
+      return res.status(400).json({ message: "title não pode ser vazio" });
+    }
+
+    db.prepare(
+      `UPDATE competitions
+       SET title = ?, description = ?, startDate = ?, endDate = ?, status = ?
+       WHERE competitionId = ?`,
+    ).run(
+      updatedTitle,
+      updatedDescription,
+      updatedStartDate,
+      updatedEndDate,
+      updatedStatus,
+      id,
+    );
+
+    const updatedComp = db
+      .prepare("SELECT * FROM competitions WHERE competitionId = ?")
+      .get(id);
+
+    res.status(200).json(updatedComp);
+  });
+
+  /**
+   * @swagger
+   * /api/Competition/Delete/{id}:
+   *   delete:
+   *     summary: Deleta uma competição pelo ID
+   *     tags: [Competition]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: ID da competição a ser deletada
+   *     responses:
+   *       200:
+   *         description: Competição deletada com sucesso
+   *       400:
+   *         description: ID inválido
+   *       404:
+   *         description: Competição não encontrada
+   */
+  app.delete("/api/Competition/Delete/:id", (req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: "ID é obrigatório" });
+    }
+
+    // Verifica se a competição existe
+    const existingComp = db
+      .prepare("SELECT * FROM competitions WHERE competitionId = ?")
+      .get(id);
+
+    if (!existingComp) {
+      return res.status(404).json({ message: "Competição não encontrada" });
+    }
+
+    // ⚠️ Deleta os projetos vinculados à competição para evitar restrição de Foreign Key
+    db.prepare("DELETE FROM projects WHERE competitionId = ?").run(id);
+
+    // Deleta a competição
+    const result = db
+      .prepare("DELETE FROM competitions WHERE competitionId = ?")
+      .run(id);
+
+    res.json({
+      message: "Competition deleted successfully",
+      deletedId: Number(id),
+      affectedRows: result.changes,
+    });
   });
 
   /**

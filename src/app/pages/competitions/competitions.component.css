@@ -1,0 +1,33 @@
+/* Estilos dinâmicos por status */
+.status-DRAFT {
+  background-color: #e0e0e0;
+  color: #333;
+}
+.status-REGISTRATION_OPEN {
+  background-color: #28a745;
+  color: #fff;
+}
+.status-REGISTRATION_CLOSED {
+  background-color: #dc3545;
+  color: #fff;
+}
+.status-IN_PROGRESS {
+  background-color: #17a2b8;
+  color: #fff;
+}
+.status-COMPLETED {
+  background-color: #6c757d;
+  color: #fff;
+}
+.status-CANCELLED {
+  background-color: #343a40;
+  color: #fff;
+}
+.status-POSTPONED {
+  background-color: #ffc107;
+  color: #000;
+}
+.status-PENDING {
+  background-color: #ddabfa;
+  color: #000;
+}
