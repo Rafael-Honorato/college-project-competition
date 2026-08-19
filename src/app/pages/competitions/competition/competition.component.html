@@ -11,7 +11,7 @@
       </p>
     </div>
 
-    <form class="space-y-5" [formGroup]="formGroup">
+    <form class="space-y-5" [formGroup]="formGroup" (submit)="send()">
       <!-- Title -->
       <div>
         <label
@@ -113,7 +113,11 @@
           type="submit"
           class="px-5 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all"
         >
-          Salvar
+          @if (this.compId()) {
+            Editar
+          } @else {
+            Criar
+          }
         </button>
       </div>
     </form>

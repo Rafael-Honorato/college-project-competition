@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompetitionsService } from '../../../core/services/competitions.service';
 import {
@@ -6,15 +6,12 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
-  ɵInternalFormsSharedModule,
 } from '@angular/forms';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { AsyncPipe } from '@angular/common';
 import { COMPETITION_STATUS_ENTRIES } from '../../../core/constants/competitions';
 
 @Component({
   selector: 'app-competition',
-  imports: [ɵInternalFormsSharedModule, ReactiveFormsModule, AsyncPipe],
+  imports: [ReactiveFormsModule],
   templateUrl: './competition.component.html',
   styleUrl: './competition.component.css',
   providers: [CompetitionsService],
@@ -25,11 +22,7 @@ export class CompetitionComponent implements OnInit {
   compService = inject(CompetitionsService);
   fb = inject(FormBuilder);
   readonly statusComp = COMPETITION_STATUS_ENTRIES;
-
-  competitions$ = this.compService.getAll().subscribe({
-    next: (c) => console.log(c),
-    error: (err) => console.log(err),
-  });
+  compId = signal('');
 
   formGroup: FormGroup = this.fb.nonNullable.group({
     title: ['', Validators.required],
@@ -46,6 +39,7 @@ export class CompetitionComponent implements OnInit {
   initForm(): void {
     const compId = this.route.snapshot.paramMap.get('id');
     if (compId) {
+      this.compId.set(compId);
       this.compService.getById(+compId).subscribe({
         next: (comp) => {
           this.formGroup.patchValue({
@@ -53,9 +47,25 @@ export class CompetitionComponent implements OnInit {
             startDate: comp.startDate ? comp.startDate.substring(0, 16) : '',
             endDate: comp.endDate ? comp.endDate.substring(0, 16) : '',
           });
-          console.log(comp);
         },
         error: (err) => console.log(err),
+      });
+    }
+  }
+
+  send() {
+    if (this.formGroup.invalid) return;
+
+    const compId = this.route.snapshot.paramMap.get('id');
+    if (compId) {
+      this.compService.update(+compId, this.formGroup.value).subscribe({
+        next: (comp) => console.log(comp),
+        error: (err) => console.log(err, 'Erro'),
+      });
+    } else {
+      this.compService.craete(this.formGroup.value).subscribe({
+        next: (comp) => console.log(comp),
+        error: (err) => console.log(err, 'Erro'),
       });
     }
   }
