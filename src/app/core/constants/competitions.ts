@@ -1,7 +1,9 @@
 import { AUTH } from './auth';
 
 export const COMP = {
-  create: '/api/Competition/Create',
+  createComp: '/api/Competition/Create',
+  updateComp: '/api/Competition/Update',
+  deleteComp: '/api/Competition/Delete',
   update: '/api/User/update',
   delete: '/api/User/delete',
   getAll: '/api/Competition/GetAll',
@@ -32,6 +34,7 @@ export const COMPETITION_STATUS = {
   COMPLETED: 'Finalizado',
   CANCELLED: 'Cancelado',
   POSTPONED: 'Adiado',
+  PENDING: 'Pendente',
 } as const;
 
 /** Entries prontos para usar em @for / ngFor */
