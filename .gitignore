@@ -44,3 +44,7 @@ Thumbs.db
 backend/.env
 backend/node_modules
 backend/request.http
+
+*.db
+*.sqlite
+*.sqlite3
