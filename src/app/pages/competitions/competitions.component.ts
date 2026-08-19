@@ -20,7 +20,21 @@ export class CompetitionsComponent {
   competitions: Competitions[] = [];
 
   onEdit(id: number) {
-    this.router.navigate(['competition/detail', id]);
+    this.router.navigate(['competition', 'detail', id]);
+  }
+  onCreate() {
+    this.router.navigate(['competition', 'create']);
+  }
+
+  onDelete(id: number, title: string) {
+    const confirm = window.confirm(`Tem certeza que quer exluir ${title}?`);
+
+    if (confirm) {
+      this.compService.delete(+id).subscribe({
+        next: (comp) => console.log(comp),
+        error: (err) => console.log(err),
+      });
+    }
   }
 
   statusLabel(status: keyof typeof COMPETITION_STATUS | string): string {

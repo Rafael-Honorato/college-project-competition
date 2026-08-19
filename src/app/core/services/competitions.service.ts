@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Competitions, CreateCompetitionDto } from '../interfaces/competitions';
-import { Observable, of, shareReplay } from 'rxjs';
+import {
+  Competitions,
+  CreateCompetitionDto,
+  UpdateCompetitionDto,
+} from '../interfaces/competitions';
+import { Observable, of, shareReplay, tap } from 'rxjs';
 import { COMP } from '../constants/competitions';
 import { environment } from '../../../environments/environment.development';
 
@@ -31,10 +35,12 @@ export class CompetitionsService {
   }
 
   craete(competition: CreateCompetitionDto): Observable<Competitions> {
-    return this.http.post<Competitions>(
-      `${environment.BASE_URL}${COMP.create}`,
-      competition,
-    );
+    return this.http
+      .post<Competitions>(
+        `${environment.BASE_URL}${COMP.createComp}`,
+        competition,
+      )
+      .pipe(tap(() => this.refresAll()));
   }
 
   refresAll() {
@@ -46,9 +52,22 @@ export class CompetitionsService {
     return this.competitions$;
   }
 
-  update() {}
+  update(id: number, competition: UpdateCompetitionDto) {
+    return this.http
+      .put<Competitions>(
+        `${environment.BASE_URL}${COMP.updateComp}/${id}`,
+        competition,
+      )
+      .pipe(tap(() => this.refresAll()));
+  }
 
-  delete() {}
-
-  reloadCompetition() {}
+  delete(id: number) {
+    return this.http
+      .delete(`${environment.BASE_URL}${COMP.deleteComp}/${id}`)
+      .pipe(
+        tap(() => {
+          this.refresAll();
+        }),
+      );
+  }
 }

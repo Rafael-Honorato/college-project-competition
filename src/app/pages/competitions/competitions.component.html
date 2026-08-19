@@ -1,12 +1,29 @@
 <div class="section max-w-6xl mx-auto pt-32 px-4 flex flex-col gap-4">
-  <div class="">
+  <div class="relative">
     <h1 class="text-4xl font-bold mb-4">Competições</h1>
     <h2 class="text-md font-semibold mb-3 text-gray-400">
       // Lista de competições dos alunos e administradores.
     </h2>
     <hr class="mb-4 border-gray-500" />
+    <button
+      class="rounded-full bg-cyan-400 w-12 h-12 flex items-center justify-center text-slate-900 hover:bg-cyan-300 transition-colors absolute top-0 right-0"
+      (click)="onCreate()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="w-6 h-6"
+      >
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+    </button>
   </div>
-  <div></div>
   <div
     class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white"
   >
@@ -70,6 +87,7 @@
               <button
                 type="button"
                 class="text-rose-600 hover:text-rose-900 text-xs font-semibold"
+                (click)="onDelete(item.competitionId, item.title)"
               >
                 Excluir
               </button>
